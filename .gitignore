@@ -2,8 +2,10 @@ node_modules/
 dist/
 build/
 coverage/
+*.tsbuildinfo
 .env
 .env.*
+!.env.example
 *.log
 .DS_Store
 .vscode/
