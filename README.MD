@@ -60,6 +60,14 @@ echo "npx lint-staged" > .husky/pre-commit
 echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
 ```
 
+## Workflow Git
+
+Le flux des branches `main`, `dev` et des branches ephemeres est decrit dans [docs/GIT_WORKFLOW.md](docs/GIT_WORKFLOW.md).
+
+## Stack Docker
+
+Les instructions DEV/PROD sans Docker Compose sont dans [docs/STACK.md](docs/STACK.md). La configuration locale part de `.env.example`.
+
 ## Licence
 
 ISC
