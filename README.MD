@@ -66,7 +66,7 @@ Le flux des branches `main`, `dev` et des branches ephemeres est decrit dans [do
 
 ## Stack Docker
 
-Les instructions DEV/PROD sans Docker Compose sont dans [docs/STACK.md](docs/STACK.md). La configuration locale part de `.env.example`.
+La stack de developpement Docker Compose et les images de production multistages sont decrites dans [docs/STACK.md](docs/STACK.md). La configuration locale part de `.env.example`.
 
 ## Licence
 
