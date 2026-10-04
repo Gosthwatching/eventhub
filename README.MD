@@ -85,6 +85,7 @@ Les captures des hooks et des commits de l'exercice 1, ainsi que celles de la st
 
 - [Diff de la stack Compose fusionnee dans dev](docs/screenshots/07-pr-changements-compose-fusionnee.png)
 - [Historique des commits de la PR #6](docs/screenshots/08-pr-commits-recents.png)
+- [Application EventHub lancee avec Docker Compose](docs/screenshots/09-application-compose-en-fonctionnement.png)
 
 ## Licence
 
