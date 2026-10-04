@@ -1,0 +1,100 @@
+services:
+  eventhub-api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    init: true
+    environment:
+      NODE_ENV: development
+      API_PORT: 3000
+      JWT_SECRET: ${JWT_SECRET:-local-development-only}
+      POSTGRES_URL: ${POSTGRES_URL:-postgres://eventhub:eventhub@eventhub-postgres:5432/eventhub}
+      MONGO_URL: ${MONGO_URL:-mongodb://eventhub-mongo:27017/eventhub}
+      REDIS_URL: ${REDIS_URL:-redis://eventhub-redis:6379}
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./apps/api:/app
+      - eventhub-api-node-modules:/app/node_modules
+    depends_on:
+      eventhub-postgres:
+        condition: service_healthy
+      eventhub-mongo:
+        condition: service_healthy
+      eventhub-redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/healthz').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  eventhub-web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    init: true
+    environment:
+      API_PROXY_TARGET: http://eventhub-api:3000
+      CHOKIDAR_USEPOLLING: 'true'
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./apps/web:/app
+      - eventhub-web-node-modules:/app/node_modules
+    depends_on:
+      eventhub-api:
+        condition: service_healthy
+
+  eventhub-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-eventhub}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-eventhub}
+      POSTGRES_DB: ${POSTGRES_DB:-eventhub}
+    volumes:
+      - eventhub-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  eventhub-mongo:
+    image: mongo:7
+    volumes:
+      - eventhub-mongo-data:/data/db
+    healthcheck:
+      test:
+        - CMD
+        - mongosh
+        - --quiet
+        - --eval
+        - "db.adminCommand('ping').ok"
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  eventhub-redis:
+    image: redis:7-alpine
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  eventhub-api-node-modules:
+  eventhub-web-node-modules:
+  eventhub-postgres-data:
+  eventhub-mongo-data:

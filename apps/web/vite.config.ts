@@ -5,6 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
+    watch: {
+      usePolling: process.env.CHOKIDAR_USEPOLLING === 'true',
+    },
     proxy: {
       '/api': {
         target: process.env.API_PROXY_TARGET ?? 'http://localhost:3001',
