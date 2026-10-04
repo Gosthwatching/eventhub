@@ -68,6 +68,24 @@ Le flux des branches `main`, `dev` et des branches ephemeres est decrit dans [do
 
 La stack de developpement Docker Compose et les images de production multistages sont decrites dans [docs/STACK.md](docs/STACK.md). La configuration locale part de `.env.example`.
 
+## Captures d'ecran du rendu
+
+Les captures des hooks et des commits de l'exercice 1, ainsi que celles de la stack Compose livree dans la PR #6, sont conservees dans [`docs/screenshots/`](docs/screenshots/).
+
+### Hooks et commits
+
+- [Historique initial](docs/screenshots/01-historique-initial.png)
+- [Hook ESLint bloquant un commit](docs/screenshots/02-hook-eslint-bloque-commit.png)
+- [Echec ESLint](docs/screenshots/03-hook-eslint-echec.png)
+- [Commitlint rejetant un message invalide](docs/screenshots/04-commitlint-message-invalide.png)
+- [Commitlint rejetant un sujet vide](docs/screenshots/05-commitlint-sans-sujet.png)
+- [Commit reussi](docs/screenshots/06-commit-reussi.png)
+
+### Dernieres modifications
+
+- [Diff de la stack Compose fusionnee dans dev](docs/screenshots/07-pr-changements-compose-fusionnee.png)
+- [Historique des commits de la PR #6](docs/screenshots/08-pr-commits-recents.png)
+
 ## Licence
 
 ISC
